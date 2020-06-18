@@ -1,6 +1,5 @@
 import numpy as np
 import string
-
 # chuyen tu so sang chu cai
 apbInv = dict(zip(range(0, 26), string.ascii_lowercase))
 # chuyen tu chu cai sang so
@@ -46,7 +45,7 @@ def calculateIC(
     return IC
 
 
-def calculateKeyLen(textList):  # tinh ra toan bo do dai khoa co the
+def calculateKeyLen(textList):  # tinh ra toan bo do dai khoa co the, listText truyen vao duoi dang 1 list
     m = 1
     maxLen = len(textList)
     arrKeyLen = []
@@ -61,14 +60,14 @@ def calculateKeyLen(textList):  # tinh ra toan bo do dai khoa co the
                     letterList.append(textList[i + (j * m)])
             IC.append(calculateIC(letterList))
         IClist = np.asarray(IC)
-        print(np.mean(IClist))
+        print('IC = ',np.mean(IClist))
         if np.mean(IClist) >= 0.06:
             arrKeyLen.append(m)
         m += 1
     return arrKeyLen
 
 
-def crackingCaesarCipher(listText):  # encrypte Caesar
+def crackingCaesarCipher(listText):  # encrypte Caesar, listText truyen vao duoi dang 1 list
     index = []
     for i in listText:  # lay chi so cua cac chu cai
         index.append(apbs[i])
@@ -106,8 +105,8 @@ def crackingCaesarCipher(listText):  # encrypte Caesar
     return (plaintext, keyText)
 
 
-def crackingVigenereCipher(listText, keyLen):  # encrypt Vigenere
-    letters = [[] for x in range(keyLen)]
+def crackingVigenereCipher(listText, keyLen):  # encrypt Vigenere, listText truyen vao duoi dang 1 list
+    letters = [[] for x in range(keyLen)] #letters[i] la day ung voi chi so chia cho keyLen du i
     crackedCipher = [[] for x in range(keyLen)]
     keys = []
     for i in range(keyLen):  # chia text thanh keyLen phan va pha ma tung phan mot
@@ -132,14 +131,15 @@ def crackingVigenereCipher(listText, keyLen):  # encrypt Vigenere
     return (plaintext, keys)
 
 
-def Prog(mylist):
+def Prog(mylist): # chuong trinh chinh , myList truyen vao duoi dang 1 list
     # text = input("input ur vigenere cipher text: ")
     #
     # mylist = list(text.lower())
-
     keyLen = calculateKeyLen(mylist)
+    print('cac khoa co the la')
     print(keyLen)
 
+    plainText = []
     for i in range(len(keyLen)):
         flag = True
         if i > 0:
@@ -154,5 +154,7 @@ def Prog(mylist):
         print('key = '+''.join(key))
         print('plain text:')
         print(''.join(plaintext))
+        plainText.append(plaintext)
+    return plainText
 
 
